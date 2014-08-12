@@ -59,19 +59,19 @@ class Profile(object):
             self.success = person.get('success')
 
     def __str__(self):
-        return dedent("""
+        return dedent(u"""
             Name: {0}
             {1}
             {2}
         """).format(
             self.name,
-            "\n".join(
-                "{0} {1}".format(title, company)
+            u"\n".join(
+                u"{0} {1}".format(title, company)
                 for title, company in self.jobinfo),
-            "\n".join(
-                "\t{0} {1}".format(site_name, url)
+            u"\n".join(
+                u"\t{0} {1}".format(site_name, url)
                 for site_name, url in self.memberships)
-        )
+        ).encode('utf-8')
 
 
 def request(email):
@@ -105,7 +105,7 @@ def ___process_email(email, output_file=None):
         logger.info('Found match for {0}'.format(email))
         print(profile)
         if output_file:
-            output_file.write(summary + '\n')
+            output_file.write(str(profile) + '\n')
     else:
         print("No information found\n")
 
